@@ -66,7 +66,7 @@ b.round-button {
 }
 .table1 {
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 .table1-item {
   background-color: white;
@@ -75,3 +75,40 @@ b.round-button {
   font-size: 30px;
   text-align: center;
 }
+.flex1 {
+  display: flex;
+  background-color: DodgerBlue;
+  flex-direction: row-reverse;
+  .item {
+    background-color: red;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+  }
+}
+.flex2 {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  background-color: dodgerblue;
+  .item {
+    background-color: #f1f1f1;
+    width: 100px;
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;
+  }
+}
+.flex-container {
+    display: flex;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    background-color: dodgerblue;
+}
+.flex-container > div {
+    background-color: #f1f1f1;
+    color: white;
+    width: 100px;
+    height: 100px;
+  }
