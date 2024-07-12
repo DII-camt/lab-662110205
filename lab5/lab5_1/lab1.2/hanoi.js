@@ -21,6 +21,7 @@ const GroupRandom = (students, n) => {
     
     const random = students.sort(() => 0.5 - Math.random());
     
+    console.log(random);
     
     const GroupCount = Math.floor(random.length / n);
     const remainder = random.length % n;
@@ -33,7 +34,6 @@ const GroupRandom = (students, n) => {
       index += n;
     }
   
-    // Distribute remaining students
     for (let i = 0; i < remainder; i++) {
       groups[i].push(random[index + i]);
     }
