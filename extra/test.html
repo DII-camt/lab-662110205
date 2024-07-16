@@ -17,7 +17,7 @@
       crossorigin="anonymous"
     />
 
-    <style>
+    <style> /*สำหรับทำอนิเมชั่น*/
       @keyframes appear {
         from{
           scale: 0.5;
@@ -27,7 +27,7 @@
         to{
           scale: 1;
           opacity: 1;
-          rotate: 0deg;
+          rotate: 180deg;
         }
       }
       .block{
@@ -51,6 +51,7 @@
       crossorigin="anonymous"
     ></script>
 
+    
     <div class="container1 d-flex flex-wrap">
       <div class="p-5 container1_template block">
         <div class="p-5 bg-warning">A</div>
@@ -58,6 +59,7 @@
     </div>
 
     <script>
+    
       const container1 = document.querySelectorAll(".container1")[0];
       const container1_template = container1.querySelectorAll(".container1_template")[0];
 
