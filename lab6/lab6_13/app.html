@@ -28,18 +28,18 @@
         align-items: center;
       }
       @media (max-width: 576px) {
-        .table_header_post{
-            display: none;
+        .table_header_post {
+          display: none;
         }
-        .col{
-            flex:100%;
+        .col {
+          flex: 100%;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="center">
+    <div class="center" data-form="test" data-index="0">
       <div class="d-flex">
         <div class="p-1">
           <button type="button" class="btn btn-primary">Button</button>
@@ -53,62 +53,65 @@
               class="form-control"
               placeholder="Search"
               aria-describedby="suffixId"
+              data-id="txt_search"
             />
-            <span class="input-group-text" id="suffixId">Search Post</span>
+            <span data-id="btn_search" class="input-group-text" id="suffixId">Search Post</span>
           </div>
         </div>
       </div>
     </div>
 
     <div class="center">
-        <div data-items="posts" class="container">
-            <div class="table_header_post row justify-content-center align-items-center g-2
-            fw-bold">
-                <div class="col">ID</div>
-                <div class="col">Title</div>
-                <div class="col">Body</div>
-                <div class="col">UserID</div>
-                <div class="col"></div>
-            </div>
-            
-            <div
-                data-item="post" class="row justify-content-center align-items-center g-2 border-bottom"
-            >
-            <div class="col" data-itemrow="id">1</div>
-            <div class="col" data-itemrow="title">test</div>
-            <div class="col" data-itemrow="body">hello test</div>
-            <div class="col" data-itemrow="userId">10</div>
-            <div class="col">
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar">
-                    <div class="btn-group p-2" role="group" aria-label="Button Group">
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-danger"
-                        >
-                            Delete
-                        </button>
-                        
-                    </div>
-            
-                </div>
-                
-            </div>
-            </div>
-            
-
+      <div data-items="posts" class="container">
+        <div
+          class="table_header_post row justify-content-center align-items-center g-2 fw-bold"
+        >
+          <div class="col">ID</div>
+          <div class="col">Title</div>
+          <div class="col">Body</div>
+          <div class="col">UserID</div>
+          <div class="col"></div>
         </div>
+
+        <div
+          data-item="post"
+          class="row justify-content-center align-items-center g-2 border-bottom"
+        >
+          <div class="col" data-itemrow="id">1</div>
+          <div class="col" data-itemrow="title">test</div>
+          <div class="col" data-itemrow="body">hello test</div>
+          <div class="col" data-itemrow="userId">10</div>
+          <div class="col">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar">
+              <div class="btn-group p-2" role="group" aria-label="Button Group">
+                <button
+                  type="button"
+                  class="btn btn-primary edit-button"
+                >
+                  Edit
+                </button>
+                <button type="button" class="btn btn-danger delete-button">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
       async function search() {
         return new Promise((resolve) => {
-          fetch("https://jsonplaceholder.typicode.com/posts")
+          fetch("https://jsonplaceholder.typicode.com/posts/")
+            .then((response) => response.json())
+            .then((json) => {
+              resolve(json);
+            });
+        });
+      }
+
+      async function search_by_id(id) {
+        return new Promise((resolve) => {
+          fetch("https://jsonplaceholder.typicode.com/posts/"+id)
             .then((response) => response.json())
             .then((json) => {
               resolve(json);
@@ -118,26 +121,58 @@
 
       async function work() {
         const json_posts = await search();
-        
-        const container_posts = document.querySelectorAll('div[data-items="posts"]')[0];
-        const container_post_item = container_posts.querySelectorAll('div[data-item="post"]')[0];
 
+        const container_posts = document.querySelectorAll(
+          'div[data-items="posts"]'
+        )[0];
+        const container_post_item = container_posts.querySelectorAll(
+          'div[data-item="post"]'
+        )[0];
 
-        json_posts.forEach(element => {
+        json_posts.forEach((element) => {
+          const rows = container_post_item.cloneNode(true);
+          rows.querySelectorAll("div[data-itemrow='userId']")[0].innerHTML =
+            element.userId;
+          rows.querySelectorAll("div[data-itemrow='id']")[0].innerHTML =
+            element.id;
+          rows.querySelectorAll("div[data-itemrow='title']")[0].innerHTML =
+            element.title;
+          rows.querySelectorAll("div[data-itemrow='body']")[0].innerHTML =
+            element.body;
 
-            const rows = container_post_item.cloneNode(true);
-            rows.querySelectorAll("div[data-itemrow='userId']")[0].innerHTML = element.userId;
-            rows.querySelectorAll("div[data-itemrow='id']")[0].innerHTML = element.id;
-            rows.querySelectorAll("div[data-itemrow='title']")[0].innerHTML = element.title;
-            rows.querySelectorAll("div[data-itemrow='body']")[0].innerHTML = element.body;
+          rows.querySelector(".delete-button").addEventListener("click", ()=>deleteIn(element.id,rows))
 
-            container_posts.append(rows);
-            
+          container_posts.append(rows);
         });
-
       }
 
-      work();
+      window.addEventListener("load",function(){
+
+        const form_test = document.querySelector("[data-form='test']");
+        
+        const btn_search = document.querySelector("[data-id='btn_search']");
+        btn_search.addEventListener("click",function() {
+          const txt_search = form_test.querySelector("[data-id='txt_search']");
+          alert(txt_search.value);
+        })
+
+        
+
+        work();
+
+      })
+
+      // async function deleteIn(id,row){
+      //   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      //   method: 'DELETE',
+      //   });
+      //   if (res.ok){
+      //     row.remove();
+      //   } else {
+      //     alert("error")
+      //   }
+        
+      // }
 
     </script>
 
