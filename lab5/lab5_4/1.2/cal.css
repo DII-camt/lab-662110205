@@ -1,0 +1,29 @@
+#display {
+    grid-area: input;
+}
+.C {
+    grid-area: C;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-areas:
+    "input input input C";
+    gap: 10px;
+    background-color: rgb(0, 0, 0);
+    padding: 10px;
+
+}
+.grid-container > button {
+    background-color: #326d38;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 30px;
+    color: white;
+    border-radius: 10px;
+}
+.grid-container > input{
+    background-color: white;
+    color: black;
+    font-size: 30px;
+}
