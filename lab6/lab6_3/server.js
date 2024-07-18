@@ -2,15 +2,17 @@ var express = require("express");
 var { createHandler } = require("graphql-http/lib/use/express");
 var { buildSchema } = require("graphql");
 var { ruruHTML } = require("ruru/server");
+const schema = require('./schema');
+const root = require('./resolvers');
 
 const mariadb = require("mariadb");
 
 const pool = mariadb.createPool({
   host: "localhost",
   user: "root",
-  password: "root1234",
+  password: "1234",
   port:3307,
-  database: "test",
+  database: "mydatabase",
   connectionLimit: 5,
 });
 
@@ -36,22 +38,22 @@ const initializeDatabase = async () => {
 initializeDatabase();
 
 // Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
-  type Query {
-    hello: String
-    getUser: String
-  }
-`);
+// var schema = buildSchema(`
+//   type Query {
+//     hello: String
+//     getUser: String
+//   }
+// `);
 
-// The root provides a resolver function for each API endpoint
-var root = {
-  hello() {
-    return "Hello world!";
-  },
-  getUser() {
-    return "COFFEE PLEASE";
-  },
-};
+// // The root provides a resolver function for each API endpoint
+// var root = {
+//   hello() {
+//     return "Hello world!";
+//   },
+//   getUser() {
+//     return "COFFEE PLEASE";
+//   },
+// };
 
 var app = express();
 
