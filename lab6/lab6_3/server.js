@@ -56,6 +56,7 @@ initializeDatabase();
 // };
 
 var app = express();
+app.use(express.static('public'));
 
 app.get("/", (_req, res) => {
   res.type("html");

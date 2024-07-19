@@ -7,6 +7,7 @@ type User {
 }
 type Query {
     getUsers: [User]
+    getUsers_by_name(name: String!): [User]
 }
 `);
 module.exports = schema;
